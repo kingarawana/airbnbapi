@@ -1019,7 +1019,7 @@ class AirApi {
                 items_offset: offset,
                 'refinement_paths[]': '/homes',
                 locale: language,
-                location,
+                query: location,
                 checkin,
                 checkout,
                 guests,
@@ -1040,11 +1040,11 @@ class AirApi {
             }
         })
         try {
-            const response = await (0, _requestPromise2.default)(options)
+            const response = await requestPromise(options)
             return response
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get listings for search of " + location)
-            _log2.default.e(e)
+            log.e("Airbnbapi: Couldn't get listings for search of " + location)
+            log.e(e)
         }
     }
 
