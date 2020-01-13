@@ -128,9 +128,7 @@ class AirApi {
             const response = await requestPromise(options)
             if (response && response.access_token) {
                 log.i(
-                    `Airbnbapi: Successful login for [${username}], auth ID is [${
-                        response.access_token
-                    }]`
+                    `Airbnbapi: Successful login for [${username}], auth ID is [${response.access_token}]`
                 )
                 return { token: response.access_token }
             } else {
@@ -989,29 +987,29 @@ class AirApi {
     }
 
     async listingSearch2({
-                             location = 'New York, United States',
-                             checkin,
-                             checkout,
-                             offset = 0,
-                             limit = 15,
-                             language = 'en-US',
-                             currency = this.config.currency,
-                             guests,
-                             instantBook,
-                             minBathrooms,
-                             minBedrooms,
-                             minBeds,
-                             minPrice,
-                             maxPrice,
-                             superhost,
-                             amenities,
-                             hostLanguages,
-                             keywords,
-                             roomTypes,
-                             neighborhoods,
-                             minPicCount,
-                             sortDirection
-                         } = {}) {
+        location = 'New York, United States',
+        checkin,
+        checkout,
+        offset = 0,
+        limit = 15,
+        language = 'en-US',
+        currency = this.config.currency,
+        guests,
+        instantBook,
+        minBathrooms,
+        minBedrooms,
+        minBeds,
+        minPrice,
+        maxPrice,
+        superhost,
+        amenities,
+        hostLanguages,
+        keywords,
+        roomTypes,
+        neighborhoods,
+        minPicCount,
+        sortDirection
+    } = {}) {
         const options = this.buildOptions({
             token: 'public',
             route: '/v2/explore_tabs',
@@ -1040,13 +1038,13 @@ class AirApi {
                 min_num_pic_urls: minPicCount,
                 sort: sortDirection
             }
-        });
+        })
         try {
-            const response = await (0, _requestPromise2.default)(options);
-            return response;
+            const response = await (0, _requestPromise2.default)(options)
+            return response
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get listings for search of " + location);
-            _log2.default.e(e);
+            _log2.default.e("Airbnbapi: Couldn't get listings for search of " + location)
+            _log2.default.e(e)
         }
     }
 

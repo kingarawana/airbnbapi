@@ -1,6 +1,6 @@
 {
     "name": "airbnbapijs-khon",
-    "version": "0.10.5",
+    "version": "0.10.6",
     "description": "Unofficial airbnb.com REST API wrapper for node.js",
     "main": "build/main.js",
     "directories": {

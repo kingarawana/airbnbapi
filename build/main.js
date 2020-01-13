@@ -4,11 +4,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _requestPromise = require('request-promise');
 
-var _requestPromise2 = _interopRequireDefault(_requestPromise);
+var _requestPromise3 = _interopRequireDefault(_requestPromise);
 
 var _log = require('./log.js');
 
-var _log2 = _interopRequireDefault(_log);
+var _log3 = _interopRequireDefault(_log);
 
 var _config = require('./config.js');
 
@@ -105,7 +105,7 @@ class AirApi {
     // Ping server to see if the token is good.
     async testAuth(token) {
         if (!(token || this.config.token)) {
-            _log2.default.i('Airbnbapi: No token included for testAuth() call');
+            _log3.default.i('Airbnbapi: No token included for testAuth() call');
             return null;
         } else {
             const options = this.buildOptions({
@@ -113,7 +113,7 @@ class AirApi {
                 token,
                 body: { operations: [] }
             });
-            let response = await (0, _requestPromise2.default)(options).catch(e => {});
+            let response = await (0, _requestPromise3.default)(options).catch(e => {});
             return response ? true : false;
         }
     }
@@ -121,10 +121,10 @@ class AirApi {
     // Grab a new auth token using a 'username and password' login method.
     async newAccessToken({ username, password } = {}) {
         if (!username) {
-            _log2.default.e("Airbnbapi: Can't apply for a token without a username.");
+            _log3.default.e("Airbnbapi: Can't apply for a token without a username.");
             return null;
         } else if (!password) {
-            _log2.default.e("Airbnbapi: Can't apply for a token without a password.");
+            _log3.default.e("Airbnbapi: Can't apply for a token without a password.");
             return null;
         }
         const options = this.buildOptions({
@@ -139,12 +139,12 @@ class AirApi {
         });
 
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             if (response && response.access_token) {
-                _log2.default.i(`Airbnbapi: Successful login for [${username}], auth ID is [${response.access_token}]`);
+                _log3.default.i(`Airbnbapi: Successful login for [${username}], auth ID is [${response.access_token}]`);
                 return { token: response.access_token };
             } else {
-                _log2.default.e('Airbnbapi: no response from server when fetching token');
+                _log3.default.e('Airbnbapi: no response from server when fetching token');
                 return null;
             }
         } catch (e) {
@@ -153,18 +153,18 @@ class AirApi {
             //     return { token: e.response.access_token }
             // }
             // log.i(JSON.stringify(e, null, 4))
-            _log2.default.e("Airbnbapi: Couldn't get auth token for " + username);
-            _log2.default.e(e.error);
+            _log3.default.e("Airbnbapi: Couldn't get auth token for " + username);
+            _log3.default.e(e.error);
             return { error: e.error };
         }
     }
 
     async login({ email, password } = {}) {
         if (!email) {
-            _log2.default.e("Airbnbapi: Can't login without an email.");
+            _log3.default.e("Airbnbapi: Can't login without an email.");
             return null;
         } else if (!password) {
-            _log2.default.e("Airbnbapi: Can't apply for a token without a password.");
+            _log3.default.e("Airbnbapi: Can't apply for a token without a password.");
             return null;
         }
         const options = this.buildOptions({
@@ -177,17 +177,17 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             if (response && response.login) {
-                _log2.default.i(`Airbnbapi: Successful login for [${email}], auth ID is [${response.login.id}]`);
+                _log3.default.i(`Airbnbapi: Successful login for [${email}], auth ID is [${response.login.id}]`);
                 return response;
             } else {
-                _log2.default.e('Airbnbapi: no response from server when fetching token');
+                _log3.default.e('Airbnbapi: no response from server when fetching token');
                 return null;
             }
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get auth token for " + email);
-            _log2.default.e(e.error);
+            _log3.default.e("Airbnbapi: Couldn't get auth token for " + email);
+            _log3.default.e(e.error);
             return { error: e.error };
         }
     }
@@ -198,7 +198,7 @@ class AirApi {
 
     async getPublicListingCalendar({ id, month = '1', year = '2018', count = '1' } = {}) {
         if (!id) {
-            _log2.default.e("Airbnbapi: Can't get public listing calendar without an id");
+            _log3.default.e("Airbnbapi: Can't get public listing calendar without an id");
             return null;
         }
         const options = this.buildOptions({
@@ -213,27 +213,27 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get public calendar for listing  " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get public calendar for listing  " + id);
+            _log3.default.e(e);
         }
     }
 
     async getCalendar({ token, id, startDate, endDate } = {}) {
         //log.i(colors.magenta('Airbnbapi: Requesting calendar for [ ' + id + ' ] --'))
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a calendar without a token");
+            _log3.default.e("Airbnbapi: Can't get a calendar without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't get a calendar without an id");
+            _log3.default.e("Airbnbapi: Can't get a calendar without an id");
             return null;
         } else if (!startDate) {
-            _log2.default.e("Airbnbapi: Can't get a calendar without a start date");
+            _log3.default.e("Airbnbapi: Can't get a calendar without a start date");
             return null;
         } else if (!endDate) {
-            _log2.default.e("Airbnbapi: Can't get a calendar without a end date");
+            _log3.default.e("Airbnbapi: Can't get a calendar without a end date");
             return null;
         }
 
@@ -250,11 +250,11 @@ class AirApi {
             timeout: 10000
         });
         try {
-            const response = await (0, _requestPromise2.default)(options).catch(console.log);
+            const response = await (0, _requestPromise3.default)(options).catch(console.log);
             return response.calendar_days;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get calendar for listing " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get calendar for listing " + id);
+            _log3.default.e(e);
         }
     }
 
@@ -274,11 +274,11 @@ class AirApi {
             timeout: 10000
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't set price for cal day for listing " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't set price for cal day for listing " + id);
+            _log3.default.e(e);
         }
     }
     async setAvailabilityForDay({ token, id, date, availability }) {
@@ -293,11 +293,11 @@ class AirApi {
             timeout: 10000
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't set availability for cal day for listing " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't set availability for cal day for listing " + id);
+            _log3.default.e(e);
         }
     }
 
@@ -307,13 +307,13 @@ class AirApi {
 
     async setHouseManual({ token, id, manual } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't set a house manual without a token");
+            _log3.default.e("Airbnbapi: Can't set a house manual without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't set a house manual without an id");
+            _log3.default.e("Airbnbapi: Can't set a house manual without an id");
             return null;
         } else if (!manual) {
-            _log2.default.e("Airbnbapi: Can't set a house manual without manual text");
+            _log3.default.e("Airbnbapi: Can't set a house manual without manual text");
             return null;
         }
         const options = this.buildOptions({
@@ -325,17 +325,17 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't set house manual for listing " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't set house manual for listing " + id);
+            _log3.default.e(e);
         }
     }
 
     async getListingInfo(id) {
         if (!id) {
-            _log2.default.e("Airbnbapi: Can't get public listing information without an id");
+            _log3.default.e("Airbnbapi: Can't get public listing information without an id");
             return null;
         }
         const options = this.buildOptions({
@@ -343,20 +343,20 @@ class AirApi {
             route: `/v1/listings/${id}`
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get info for listing  " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get info for listing  " + id);
+            _log3.default.e(e);
         }
     }
 
     async getListingInfoHost({ token, id } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a listing without a token");
+            _log3.default.e("Airbnbapi: Can't get a listing without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't get a listing without an id");
+            _log3.default.e("Airbnbapi: Can't get a listing without an id");
             return null;
         }
         const options = this.buildOptions({
@@ -365,17 +365,17 @@ class AirApi {
             format: 'v1_legacy_long_manage_listing'
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get listing info for id " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get listing info for id " + id);
+            _log3.default.e(e);
         }
     }
 
     async getHostSummary(token) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a summary without a token");
+            _log3.default.e("Airbnbapi: Can't get a summary without a token");
             return null;
         }
         const options = this.buildOptions({
@@ -383,17 +383,17 @@ class AirApi {
             token
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get a host summary for token " + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get a host summary for token " + token);
+            _log3.default.e(e);
         }
     }
 
     async getOwnActiveListings(token) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get an active listing list without a token");
+            _log3.default.e("Airbnbapi: Can't get an active listing list without a token");
             return null;
         }
         const options = this.buildOptions({
@@ -401,20 +401,20 @@ class AirApi {
             token
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             if (response.active_listings) {
                 return response.active_listings.map(listing => listing.listing.listing);
             } else {
                 return [];
             }
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get an active listing list for token " + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get an active listing list for token " + token);
+            _log3.default.e(e);
         }
     }
     async getOwnListings({ token, userId }) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get an listing list without a token");
+            _log3.default.e("Airbnbapi: Can't get an listing list without a token");
             return null;
         }
         const options = this.buildOptions({
@@ -426,15 +426,15 @@ class AirApi {
             token
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             if (response) {
                 return response.listings;
             } else {
                 return [];
             }
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get an listing list for token " + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get an listing list for token " + token);
+            _log3.default.e(e);
         }
     }
 
@@ -445,10 +445,10 @@ class AirApi {
     // Gets all the data for one thread
     async getThread({ token, id, currency = this.config.currency } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a thread without a token");
+            _log3.default.e("Airbnbapi: Can't get a thread without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't get a thread without an id");
+            _log3.default.e("Airbnbapi: Can't get a thread without an id");
             return null;
         }
         const options = this.buildOptions({
@@ -457,21 +457,21 @@ class AirApi {
             qs: { currency }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response.thread;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get thread " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get thread " + id);
+            _log3.default.e(e);
         }
     }
 
     async getThreadsBatch({ token, ids, currency = this.config.currency } = {}) {
         //log.i(colors.magenta('Airbnbapi: Requesting calendar for [ ' + id + ' ] --'))
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get threads without a token");
+            _log3.default.e("Airbnbapi: Can't get threads without a token");
             return null;
         } else if (!ids) {
-            _log2.default.e("Airbnbapi: Can't get threads without at least one id");
+            _log3.default.e("Airbnbapi: Can't get threads without at least one id");
             return null;
         }
 
@@ -496,19 +496,19 @@ class AirApi {
         let response = {};
 
         try {
-            response = await (0, _requestPromise2.default)(options).catch(_log2.default.e);
+            response = await (0, _requestPromise3.default)(options).catch(_log3.default.e);
             return response.operations.map(o => o.response);
             // log.i(JSON.stringify(response, null, 4))
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get threads for threads " + ids);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get threads for threads " + ids);
+            _log3.default.e(e);
         }
     }
 
     // Gets a list of thread id's for a host
     async getThreadsFull({ token, offset = '0', limit = '2' } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a thread list without a token");
+            _log3.default.e("Airbnbapi: Can't get a thread list without a token");
             return null;
         }
         const options = this.buildOptions({
@@ -518,24 +518,24 @@ class AirApi {
             qs: { _offset: offset, _limit: limit }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             if (response.threads) {
                 return response.threads; //.map(item => item.id)
             } else return null;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get thread list for token " + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get thread list for token " + token);
+            _log3.default.e(e);
         }
     }
 
     // Gets a list of thread id's for a host
     async getThreadFull({ token, id } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a thread without a token");
+            _log3.default.e("Airbnbapi: Can't get a thread without a token");
             return null;
         }
         if (!id) {
-            _log2.default.e("Airbnbapi: Can't get a thread without an id");
+            _log3.default.e("Airbnbapi: Can't get a thread without an id");
             return null;
         }
 
@@ -545,20 +545,20 @@ class AirApi {
             format: 'for_messaging_sync_with_posts'
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             if (response) {
                 return response;
             } else return null;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get thread for id " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get thread for id " + id);
+            _log3.default.e(e);
         }
     }
 
     // Gets a list of thread id's for a host
     async getThreads({ token, offset = '0', limit = '2' } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a thread list without a token");
+            _log3.default.e("Airbnbapi: Can't get a thread list without a token");
             return null;
         }
         const options = this.buildOptions({
@@ -567,32 +567,32 @@ class AirApi {
             qs: { _offset: offset, _limit: limit }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             if (response.threads) {
                 return response.threads.map(item => item.id);
             } else return null;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get thread list for token " + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get thread list for token " + token);
+            _log3.default.e(e);
         }
     }
 
     // Create a new thread
     async createThread({ token, id, checkIn, checkOut, guestNum = 1, message } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't create a thread without a token");
+            _log3.default.e("Airbnbapi: Can't create a thread without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't create a thread without an id");
+            _log3.default.e("Airbnbapi: Can't create a thread without an id");
             return null;
         } else if (!checkIn) {
-            _log2.default.e("Airbnbapi: Can't create a thread without a checkin");
+            _log3.default.e("Airbnbapi: Can't create a thread without a checkin");
             return null;
         } else if (!checkOut) {
-            _log2.default.e("Airbnbapi: Can't create a thread without a checkout");
+            _log3.default.e("Airbnbapi: Can't create a thread without a checkout");
             return null;
         } else if (!message || message.trim() === '') {
-            _log2.default.e("Airbnbapi: Can't create a thread without a message body");
+            _log3.default.e("Airbnbapi: Can't create a thread without a message body");
             return null;
         }
         const options = this.buildOptions({
@@ -608,11 +608,11 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't send create thread for listing " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't send create thread for listing " + id);
+            _log3.default.e(e);
         }
     }
 
@@ -622,7 +622,7 @@ class AirApi {
 
     async getReservations({ token, offset = '0', limit = '20' } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a reservation list without a token");
+            _log3.default.e("Airbnbapi: Can't get a reservation list without a token");
             return null;
         }
         const options = this.buildOptions({
@@ -632,11 +632,11 @@ class AirApi {
             qs: { _offset: offset, _limit: limit }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response.reservations;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get reservation list for token " + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get reservation list for token " + token);
+            _log3.default.e(e);
         }
     }
 
@@ -644,10 +644,10 @@ class AirApi {
         // TODO change to reservation
         //log.i(colors.magenta('Airbnbapi: Requesting calendar for [ ' + id + ' ] --'))
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get reservations without a token");
+            _log3.default.e("Airbnbapi: Can't get reservations without a token");
             return null;
         } else if (!ids || !Array.isArray(ids)) {
-            _log2.default.e("Airbnbapi: Can't get reservations without at least one id");
+            _log3.default.e("Airbnbapi: Can't get reservations without at least one id");
             return null;
         }
         const operations = ids.map(id => ({
@@ -670,21 +670,21 @@ class AirApi {
         });
         // log.i(JSON.stringify(options, null, 4))
         try {
-            const response = await (0, _requestPromise2.default)(options).catch(console.error);
+            const response = await (0, _requestPromise3.default)(options).catch(console.error);
             return response.operations.map(o => o.response);
             // log.i(JSON.stringify(response, null, 4))
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get reservations for ids " + ids);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get reservations for ids " + ids);
+            _log3.default.e(e);
         }
     }
 
     async getReservation({ token, id, currency } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get a reservation without a token");
+            _log3.default.e("Airbnbapi: Can't get a reservation without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't get a reservation without an id");
+            _log3.default.e("Airbnbapi: Can't get a reservation without an id");
             return null;
         }
         const options = this.buildOptions({
@@ -694,28 +694,28 @@ class AirApi {
             currency
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response.reservation;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get reservation for token " + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get reservation for token " + token);
+            _log3.default.e(e);
         }
     }
 
     // Send a message to a thread (guest)
     async sendMessage({ token, id, message } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't send a message without a token");
+            _log3.default.e("Airbnbapi: Can't send a message without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't send a message without an id");
+            _log3.default.e("Airbnbapi: Can't send a message without an id");
             return null;
         } else if (!message || message.trim() === '') {
-            _log2.default.e("Airbnbapi: Can't send a message without a message body");
+            _log3.default.e("Airbnbapi: Can't send a message without a message body");
             return null;
         }
-        _log2.default.i('Airbnbapi: send message for thread: ' + id + ' --');
-        _log2.default.i("'" + message.substring(70) + "'");
+        _log3.default.i('Airbnbapi: send message for thread: ' + id + ' --');
+        _log3.default.i("'" + message.substring(70) + "'");
         const options = this.buildOptions({
             method: 'POST',
             route: '/v2/messages',
@@ -723,11 +723,11 @@ class AirApi {
             body: { thread_id: id, message: message.trim() }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't send message for thread " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't send message for thread " + id);
+            _log3.default.e(e);
         }
     }
 
@@ -735,13 +735,13 @@ class AirApi {
     // requires a id. id, and optional message
     async sendPreApproval({ token, thread_id, listing_id, message = '' } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't send pre-approval without a token");
+            _log3.default.e("Airbnbapi: Can't send pre-approval without a token");
             return null;
         } else if (!thread_id) {
-            _log2.default.e("Airbnbapi: Can't send pre-approval without a thread_id");
+            _log3.default.e("Airbnbapi: Can't send pre-approval without a thread_id");
             return null;
         } else if (!listing_id) {
-            _log2.default.e("Airbnbapi: Can't send pre-approval without a listing_id");
+            _log3.default.e("Airbnbapi: Can't send pre-approval without a listing_id");
             return null;
         }
         const options = this.buildOptions({
@@ -755,11 +755,11 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't send preapproval for thread  " + thread_id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't send preapproval for thread  " + thread_id);
+            _log3.default.e(e);
         }
     }
 
@@ -774,10 +774,10 @@ class AirApi {
         recommend = true
     } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't send a review without a token");
+            _log3.default.e("Airbnbapi: Can't send a review without a token");
             return null;
         } else if (!id) {
-            _log2.default.e("Airbnbapi: Can't send review without an id");
+            _log3.default.e("Airbnbapi: Can't send review without an id");
             return null;
         }
         const options = this.buildOptions({
@@ -794,11 +794,11 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't send a review for thread  " + thread_id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't send a review for thread  " + thread_id);
+            _log3.default.e(e);
         }
     }
 
@@ -813,25 +813,25 @@ class AirApi {
         currency = this.config.currency
     } = {}) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't send a special offer without a token");
+            _log3.default.e("Airbnbapi: Can't send a special offer without a token");
             return null;
         } else if (!startDate) {
-            _log2.default.e("Airbnbapi: Can't send a special offer without a startDate");
+            _log3.default.e("Airbnbapi: Can't send a special offer without a startDate");
             return null;
         } else if (!guests) {
-            _log2.default.e("Airbnbapi: Can't send a special offer without guests");
+            _log3.default.e("Airbnbapi: Can't send a special offer without guests");
             return null;
         } else if (!listingId) {
-            _log2.default.e("Airbnbapi: Can't send a special offer without a listingId");
+            _log3.default.e("Airbnbapi: Can't send a special offer without a listingId");
             return null;
         } else if (!nights) {
-            _log2.default.e("Airbnbapi: Can't send a special offer without nights (staying)");
+            _log3.default.e("Airbnbapi: Can't send a special offer without nights (staying)");
             return null;
         } else if (!price) {
-            _log2.default.e("Airbnbapi: Can't send a special offer without a price");
+            _log3.default.e("Airbnbapi: Can't send a special offer without a price");
             return null;
         } else if (!threadId) {
-            _log2.default.e("Airbnbapi: Can't send a special offer without a threadId");
+            _log3.default.e("Airbnbapi: Can't send a special offer without a threadId");
             return null;
         }
 
@@ -850,11 +850,11 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't send a review for thread  " + thread_id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't send a review for thread  " + thread_id);
+            _log3.default.e(e);
         }
     }
 
@@ -866,16 +866,16 @@ class AirApi {
         currency = this.config.currency
     }) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't send an alteration request response without a token");
+            _log3.default.e("Airbnbapi: Can't send an alteration request response without a token");
             return null;
         } else if (!reservationId) {
-            _log2.default.e("Airbnbapi: Can't send an alteration request response without a reservationId");
+            _log3.default.e("Airbnbapi: Can't send an alteration request response without a reservationId");
             return null;
         } else if (!alterationId) {
-            _log2.default.e("Airbnbapi: Can't send an alteration request response without an alterationId");
+            _log3.default.e("Airbnbapi: Can't send an alteration request response without an alterationId");
             return null;
         } else if (!decision) {
-            _log2.default.e("Airbnbapi: Can't send an alteration request response without a decision");
+            _log3.default.e("Airbnbapi: Can't send an alteration request response without a decision");
             return null;
         }
         const options = this.buildOptions({
@@ -893,41 +893,41 @@ class AirApi {
             timeout: 10000
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Can't send an alteration request response fro reservation " + reservationId);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Can't send an alteration request response fro reservation " + reservationId);
+            _log3.default.e(e);
         }
     }
 
     async getGuestInfo(id) {
         if (!id) {
-            _log2.default.e("Airbnbapi: Can't get guest info without an id");
+            _log3.default.e("Airbnbapi: Can't get guest info without an id");
             return null;
         }
         const options = this.buildOptions({ token: 'public', route: `/v2/users/${id}` });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response && response.user ? response.user : undefined;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get guest info with user id " + id);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get guest info with user id " + id);
+            _log3.default.e(e);
         }
     }
 
     async getOwnUserInfo(token) {
         if (!(token || this.config.token)) {
-            _log2.default.e("Airbnbapi: Can't get user info without a token");
+            _log3.default.e("Airbnbapi: Can't get user info without a token");
             return null;
         }
         const options = this.buildOptions({ route: '/v2/users/me', token });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response && response.user ? response.user : undefined;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't get own info with token" + token);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't get own info with token" + token);
+            _log3.default.e(e);
             return null;
         }
     }
@@ -985,6 +985,68 @@ class AirApi {
             }
         });
         try {
+            const response = await (0, _requestPromise3.default)(options);
+            return response;
+        } catch (e) {
+            _log3.default.e("Airbnbapi: Couldn't get listings for search of " + location);
+            _log3.default.e(e);
+        }
+    }
+
+    async listingSearch2({
+        location = 'New York, United States',
+        checkin,
+        checkout,
+        offset = 0,
+        limit = 15,
+        language = 'en-US',
+        currency = this.config.currency,
+        guests,
+        instantBook,
+        minBathrooms,
+        minBedrooms,
+        minBeds,
+        minPrice,
+        maxPrice,
+        superhost,
+        amenities,
+        hostLanguages,
+        keywords,
+        roomTypes,
+        neighborhoods,
+        minPicCount,
+        sortDirection
+    } = {}) {
+        const options = this.buildOptions({
+            token: 'public',
+            route: '/v2/explore_tabs',
+            currency,
+            qs: {
+                items_per_grid: limit,
+                items_offset: offset,
+                'refinement_paths[]': '/homes',
+                locale: language,
+                location,
+                checkin,
+                checkout,
+                guests,
+                ib: instantBook,
+                min_bathrooms: minBathrooms,
+                min_bedrooms: minBedrooms,
+                min_beds: minBeds,
+                price_min: minPrice,
+                price_max: maxPrice,
+                superhost,
+                hosting_amenities: amenities,
+                languages: hostLanguages,
+                keywords: keywords,
+                room_types: roomTypes,
+                neighborhoods: neighborhoods,
+                min_num_pic_urls: minPicCount,
+                sort: sortDirection
+            }
+        });
+        try {
             const response = await (0, _requestPromise2.default)(options);
             return response;
         } catch (e) {
@@ -1004,19 +1066,19 @@ class AirApi {
         bdayYear = 1980
     } = {}) {
         if (!username) {
-            _log2.default.e("Airbnbapi: Can't make a new account without a username");
+            _log3.default.e("Airbnbapi: Can't make a new account without a username");
             return null;
         } else if (!password) {
-            _log2.default.e("Airbnbapi: Can't make a new account without a password");
+            _log3.default.e("Airbnbapi: Can't make a new account without a password");
             return null;
         } else if (!authenticity_token) {
-            _log2.default.e("Airbnbapi: Can't make a new account without an authenticity_token");
+            _log3.default.e("Airbnbapi: Can't make a new account without an authenticity_token");
             return null;
         } else if (!authenticity_token) {
-            _log2.default.e("Airbnbapi: Can't make a new account without a firstname");
+            _log3.default.e("Airbnbapi: Can't make a new account without a firstname");
             return null;
         } else if (!authenticity_token) {
-            _log2.default.e("Airbnbapi: Can't make a new account without a lastname");
+            _log3.default.e("Airbnbapi: Can't make a new account without a lastname");
             return null;
         }
         const options = this.buildOptions({
@@ -1036,11 +1098,11 @@ class AirApi {
             }
         });
         try {
-            const response = await (0, _requestPromise2.default)(options);
+            const response = await (0, _requestPromise3.default)(options);
             return response;
         } catch (e) {
-            _log2.default.e("Airbnbapi: Couldn't make new account for username " + username);
-            _log2.default.e(e);
+            _log3.default.e("Airbnbapi: Couldn't make new account for username " + username);
+            _log3.default.e(e);
         }
     }
 }
